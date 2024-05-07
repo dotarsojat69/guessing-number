@@ -12,6 +12,13 @@ const GuessTheNumber = () => {
 
   const handleGuess = () => {
     const parsedGuess = parseInt(guess, 10);
+
+    // validation
+    if (isNaN(parsedGuess)) {
+      setFeedback('Please enter the valid number');
+      return;
+    } 
+
     setAttempts(attempts + 1);
 
     if (parsedGuess < targetNumber) {
