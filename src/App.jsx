@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button"
 import { Input } from "./components/ui/input"
 import "./index.css"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './components/ui/dialog';
+
+
 
 
 const GuessTheNumber = () => {
@@ -9,6 +12,7 @@ const GuessTheNumber = () => {
   const [guess, setGuess] = useState('');
   const [attempts, setAttempts] = useState(0);
   const [feedback, setFeedback] = useState('');
+  const [showDialog, setShowDialog] = useState(false);
 
   const handleGuess = () => {
     const parsedGuess = parseInt(guess, 10);
@@ -26,18 +30,26 @@ const GuessTheNumber = () => {
     } else if (parsedGuess > targetNumber) {
       setFeedback('Too high!');
     } else {
+      if (attempts + 1 < 4) {
+        setShowDialog(true);
+      }
       setFeedback(`Congratulations! You've guessed the number ${targetNumber} in ${attempts + 1} attempts.`);
       setTargetNumber(Math.floor(Math.random() * 100) + 1);
       setGuess('');
       setAttempts(0);
     }
-  };
+};
 
   const handleReset = () => {
     setTargetNumber(Math.floor(Math.random() * 100) + 1);
     setGuess('');
     setAttempts(0);
     setFeedback('');
+    setShowDialog(false);
+  };
+
+  const handleDialogClose = () => {
+    setShowDialog(false);
   };
 
   return (
@@ -58,6 +70,19 @@ const GuessTheNumber = () => {
       <p className="mb-4">{feedback}</p>
       <p className="mb-4">Attempts: {attempts}</p>
       <Button onClick={handleReset}>Reset Game</Button>
+
+      <Dialog open={showDialog} onOpenChange={handleDialogClose}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              Great!
+            </DialogTitle>
+          </DialogHeader>
+          <DialogDescription>
+            You guess the number so fast!
+          </DialogDescription>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
