@@ -30,7 +30,7 @@ const GuessTheNumber = () => {
     } else if (parsedGuess > targetNumber) {
       setFeedback('Too high!');
     } else {
-      if (attempts + 1 < 5) {
+      if (attempts + 1 < 6) {
         setShowDialog(true);
       }
       setFeedback(`Congratulations! You've guessed the number ${targetNumber} in ${attempts + 1} attempts.`);
